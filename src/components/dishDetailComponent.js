@@ -1,51 +1,69 @@
-import React, { Component } from 'react';
-import {
-    Card, CardImg, CardText, CardBody,
-    CardTitle
-} from 'reactstrap';
+import React from 'react'
+import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
 
-class DishDetail extends Component {
 
-    renderComment(comt) {
-        if (comt != null) {
-            const comment = comt.map((dish) => {
-                return (
-                    <ul className="list-unstyled">
-                        <li className="mb-3">{dish.comment}</li>
-                        <li>--{dish.author},{dish.date}</li>
-                    </ul>
-                );
-            });
-            return comment;
-        } else {
-            return <div></div>;
-        }
+
+function RenderDish({ dish }) {
+    return (
+        <div className="col-12 col-md-5 m-1">
+            <Card>
+                <CardImg top src={dish.image} alt={dish.name} />
+                <CardBody>
+                    <CardTitle>{dish.name}</CardTitle>
+                    <CardText>{dish.description}</CardText>
+                </CardBody>
+            </Card>
+        </div>
+    );
+}
+
+function RenderComments({ comments }) {
+    var comment = null
+    comment = comments.map((c) => {
+        return (
+            <ul className="list-unstyled" id={c.id}>
+                <li>{c.comment}</li>
+                <li>--{c.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(c.date)))}</li>
+            </ul>
+        )
+    });
+    if (comments) {
+        return (
+            <div className="col-12 col-md-5 m-1">
+                <h4>Comments</h4>
+                {comment}
+            </div>
+        )
+    }
+    else {
+        return (
+            <div>
+                {comment}
+            </div>
+        )
+
 
     }
-    render() {
+
+}
 
 
 
+const DishDetail = (props) => {
+    if (props.dish != null) {
         return (
-            <div className="row">
-                <div className="col-12 col-md-5">
-                    <Card>
-                        <CardImg src={this.props.dish.image} alt={this.props.dish.name} />
-                        <CardBody>
-                            <CardTitle>{this.props.dish.name}</CardTitle>
-                            <CardText>{this.props.dish.description}</CardText>
-                        </CardBody>
-                    </Card>
-                </div>
-                <div className="col-12 col-md ml-2">
-                    <h4>Comments</h4>
-                    {this.renderComment(this.props.dish.comments)}
+            <div className="container">
+                <div className="row">
+                    <RenderDish dish={props.dish} />
+                    <RenderComments comments={props.dish.comments} />
                 </div>
             </div>
-
-
-        );
+        )
+    }
+    else {
+        return null
     }
 }
 
-export default DishDetail;
+
+export default DishDetail
