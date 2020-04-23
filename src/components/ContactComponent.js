@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
-
+/* eslint-disable */
 function Contact(props) {
     return (
         <div className="container">
